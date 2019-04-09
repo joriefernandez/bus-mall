@@ -1,18 +1,34 @@
 'use strict';
 
 
-//global variables
+/**********************************************************
+ *
+ * Global variables
+ *********************************************************/
+//List of all array objects
 var allProducts = [];
+
+//Product image container
 var products = document.getElementById('image-container');
-var maxSelections = 5;
+
+//Number of clicks/selections per user
+var maxSelections = 25;
+
+//List of previous shown products
 var previousProducts = [];
+
+//List of current shown products
 var currentProducts = [];
 
+//Number of images to be displayed
 var displayNumber = 3;
+
+//Counter for current number of clicks
+var currentClickNumber = 0;
+
 
 //Constructor for product image
 function ProductPic(name) {
-  // images/sassy-goat.jpg
   this.filepath = `img/${name}.jpg`;
   this.name = name;
   this.views = 0;
@@ -20,6 +36,13 @@ function ProductPic(name) {
   allProducts.push(this);
 
 }
+
+/**************************************************************
+ *
+ * FUNCTIONS
+ *
+****************************************************************/
+
 
 //Function to generate random product
 
@@ -29,16 +52,16 @@ function showRandomProduct(){
 
 //Function to display images
 function displayImages(){
-
-
-
+  //current list of products
   currentProducts = [];
+  //clear the display
+  products.innerHTML = '';
 
-
-
+  // loop through number of displays
   for(var index = 0; index < displayNumber; index++){
     var random  = showRandomProduct();
 
+    //Check if the image has duplicate
     while(currentProducts.includes(random) || previousProducts.includes(random)){
       console.log('Product in the current batch ', allProducts[random].name);
       random = showRandomProduct();
@@ -48,7 +71,7 @@ function displayImages(){
     currentProducts.push(random);
   }
 
-
+  // Update previous batch
   updatePreviousBatch(currentProducts);
 }
 
@@ -57,7 +80,6 @@ function updatePreviousBatch(curArr){
   for(var i=0; i < curArr.length; i++){
     previousProducts[i] = curArr[i];
   }
-
 
 }
 
@@ -73,42 +95,52 @@ function createImageElement(ProductPic){
 
 }
 
-
 //function to update clicks
 function updateClick(curName){
+  // Find the pic and update views
   for (var i= 0 ; i < allProducts.length; i++){
     if(allProducts[i].name === curName){
       allProducts[i].clicks += 1;
     }
   }
 
-  console.log('Number of clicks so far...');
-  console.table(allProducts);
 
 }
 
-
-
+// Product click function
+// Input: event - when user clicks on images
 function handleProductClick(event) {
-  // console.log(event.target.id);
+  currentClickNumber += 1;
   console.log('User clicked the following:', currentClickNumber);
   console.log(event.target.id);
 
-  if(currentClickNumber > 0){
-    currentClickNumber -= 1;
+  //Check if user can still click on selections
+  if(currentClickNumber < maxSelections){
     //Update the click number
     updateClick(event.target.id);
     //display new batch of images
     displayImages();
-  } else{
-    alert('You maximized the number of clicks');
-    
-    products.removeEventListener();
+  } else if (currentClickNumber === maxSelections){
+    //Update count
+    updateClick(event.target.id);
+
+    //User reached the limit
+  }else if (currentClickNumber > maxSelections){
+    alert('You have reached the maximum number of selections.');
+    products.removeEventListener('click', handleProductClick);
+    console.table(allProducts);
   }
-  
-  
+
 }
-// Instantiate
+
+
+/************************************************************************
+*
+* FUNCTION CALLS
+*
+*************************************************************************/
+
+// Instantiate all objects
 
 new ProductPic('bag');
 new ProductPic('banana');
@@ -131,11 +163,9 @@ new ProductPic('usb');
 new ProductPic('water-can');
 new ProductPic('wine-glass');
 
-
-var currentClickNumber = maxSelections;
-
 //Display images in the container
 displayImages();
 
+//Event listener for images
 products.addEventListener('click', handleProductClick);
 
