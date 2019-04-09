@@ -1,0 +1,11 @@
+@import 'reset.css';
+
+img {
+  /* display: inline-block; */
+  height: 20px;
+  float: left;
+}
+
+section{
+  width: 960px;
+}
