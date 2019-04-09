@@ -29,6 +29,10 @@ var currentClickNumber = 0;
 // Votes container
 var listContainer = document.getElementById('votes-container');
 
+//Chart datasets
+var productLabel = [];
+var voteData = [];
+
 
 //Constructor for product image
 function ProductPic(name) {
@@ -94,7 +98,7 @@ function createImageElement(ProductPic){
   image.alt = ProductPic.name;
   image.title = ProductPic.name;
   image.style.width = '300px';
-  image.style.height = '260px';
+  image.style.height = '250px';
   products.appendChild(image);
 
 }
@@ -105,6 +109,8 @@ function updateClick(curName){
   for (var i= 0 ; i < allProducts.length; i++){
     if(allProducts[i].name === curName){
       allProducts[i].clicks += 1;
+
+      //update the chart arrays
     }
   }
 
