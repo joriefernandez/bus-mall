@@ -12,10 +12,12 @@ img {
 #image-container{
   width: 960px;
   margin: 0px auto;
+  
 }
 
 .chart-container{
   display: block;
+  position:relative;
   margin: 0px auto;
 }
 
