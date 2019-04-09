@@ -6,6 +6,9 @@ img {
   float: left;
 }
 
-section{
+#image-container{
   width: 960px;
+  height: 80px;
+  margin: 0px auto;
 }
+

@@ -26,6 +26,9 @@ var displayNumber = 3;
 //Counter for current number of clicks
 var currentClickNumber = 0;
 
+// Votes container
+var listContainer = document.getElementById('votes-container');
+
 
 //Constructor for product image
 function ProductPic(name) {
@@ -91,6 +94,7 @@ function createImageElement(ProductPic){
   image.alt = ProductPic.name;
   image.title = ProductPic.name;
   image.style.width = '300px';
+  image.style.height = '260px';
   products.appendChild(image);
 
 }
@@ -129,8 +133,35 @@ function handleProductClick(event) {
     alert('You have reached the maximum number of selections.');
     products.removeEventListener('click', handleProductClick);
     console.table(allProducts);
+    displayVotes();
   }
 
+}
+
+//Function to determine vote/s
+function voteWord(num){
+  if (num > 1){
+    return 'votes';
+  } else{
+    return 'vote';
+  }
+}
+
+// Function to display the list of votes
+function displayVotes(){
+
+  var unorderedList = document.getElementById('list-votes');
+  for (var i = 0; i < allProducts.length; i++){
+    //create list element
+    var listElement = document.createElement('li');
+
+    //vote word to use
+    let word = voteWord(allProducts[i].clicks);
+    listElement.textContent = `${allProducts[i].clicks} ${word} for ${allProducts[i].name}`;
+    unorderedList.appendChild(listElement);
+  }
+
+  listContainer.appendChild(unorderedList);
 }
 
 
