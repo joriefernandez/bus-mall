@@ -111,10 +111,17 @@ function updateClick(curName){
       allProducts[i].clicks += 1;
 
       //update the chart arrays
+      updateChartArrays();
     }
   }
+}
 
-
+//Function to update the chart arrays
+function updateChartArrays() {
+  for (var i = 0; i < allProducts.length; i++) {
+    productLabel[i] = allProducts[i].name;
+    voteData[i] = allProducts[i].clicks;
+  }
 }
 
 // Product click function
