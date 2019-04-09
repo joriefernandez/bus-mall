@@ -238,10 +238,8 @@ var data = {
 var options = {
   scales: {
     xAxes: [{
-      barPercentage: 0.9,
-      barThickness: 20,
-      maxBarThickness: 20,
-      minBarLength: 20,
+      barPercentage: 0.8,
+      barThickness: 'flex',
       gridLines: {
         offsetGridLines: true
       }
