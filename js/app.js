@@ -167,8 +167,8 @@ function displayVotes(){
     var listElement = document.createElement('li');
 
     //vote word to use
-    let word = voteWord(allProducts[i].clicks);
-    listElement.textContent = `${allProducts[i].clicks} ${word} for ${allProducts[i].name}`;
+    let word = voteWord(voteData[i]);
+    listElement.textContent = `${voteData[i]} ${word} for ${allProducts[i].name}`;
     unorderedList.appendChild(listElement);
   }
 
