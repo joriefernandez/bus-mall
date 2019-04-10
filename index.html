@@ -5,27 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+  <link rel="stylesheet" href="./css/style.css">
   <title>BusMall App</title>
 </head>
 <body>
   <header>
-      <h1>BusMall App</h1>
+    <nav>
+      <a href='index.html'>
+        <div id='banner'>
+            <!-- <img id='logo' src='./img/salmon.png'> -->
+            <h1 id='header-name'>BusMall</h1>
+        </div>
+      </a>
+      <ul>
+          <li><a href='#location'>Contact</a></li>
+          <li><a href='#product'>Products</a></li>
+          <li><a href='sales.html'>About</a></li>
+                 
+      </ul>
+      
+    </nav>
   </header>
   <main>
 
-      <section>
-        <p>BusMall is your one-stop bus catalog shop delivered to you. </p>
-      </section>
+      <p>Please select the product you are interested in.</p>
       <div id='image-container'></div>
-      
-      <div id='votes-container'>
-        <ul id='list-votes'></ul>
-      </div>
 
-      <div class="chart-container" style="width:60vw">
-        <canvas id='product-chart'></canvas>
-    </div>
-     
+      <section id='result'>
+       
+
+        <div class='chart-container'>
+          <canvas id='product-chart' width='500px'></canvas>
+        </div>
+
+        <div id='votes-container'>
+
+          <ul id='list-votes'></ul>
+        </div>
+      </section>
+
   </main>
   <footer></footer>
 

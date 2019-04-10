@@ -97,8 +97,6 @@ function createImageElement(ProductPic){
   image.src = ProductPic.filepath;
   image.alt = ProductPic.name;
   image.title = ProductPic.name;
-  image.style.width = '300px';
-  image.style.height = '250px';
   products.appendChild(image);
 
 }
