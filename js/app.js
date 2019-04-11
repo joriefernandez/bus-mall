@@ -310,8 +310,6 @@ new ProductPic('water-can');
 new ProductPic('wine-glass');
 
 
-
-
 //Display images in the container
 displayImages();
 
