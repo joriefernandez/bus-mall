@@ -253,6 +253,7 @@ var options = {
   }
 };
 
+// Function to draw chart
 function drawChart(){
   var ctx = document.getElementById('product-chart').getContext('2d');
   var theChart = new Chart(ctx, {
@@ -262,7 +263,12 @@ function drawChart(){
   });
 }
 
-
+//Function to clear local storage
+function clearStorage(){
+  console.log('Clicked local storage cleared.');
+  localStorage.clear();
+  
+}
 /************************************************************************
 *
 * FUNCTION CALLS
@@ -297,4 +303,7 @@ displayImages();
 
 //Event listener for images
 products.addEventListener('click', handleProductClick);
+
+//button click to clear storage
+document.getElementById('clear-localStorage').addEventListener('click', clearStorage);
 
