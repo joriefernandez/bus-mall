@@ -31,7 +31,7 @@ var listContainer = document.getElementById('votes-container');
 
 //Chart datasets
 var productLabel = [];
-var voteData = [];
+var voteData;
 
 
 //Constructor for product image
@@ -107,9 +107,6 @@ function updateClick(curName){
   for (var i= 0 ; i < allProducts.length; i++){
     if(allProducts[i].name === curName){
       allProducts[i].clicks += 1;
-
-      //update the chart arrays
-      updateChartArrays();
     }
   }
 }
@@ -118,7 +115,7 @@ function updateClick(curName){
 function updateChartArrays() {
   for (var i = 0; i < allProducts.length; i++) {
     productLabel[i] = allProducts[i].name;
-    voteData[i] = allProducts[i].clicks;
+    voteData[i] += allProducts[i].clicks;
   }
 }
 
@@ -143,9 +140,11 @@ function handleProductClick(event) {
   }else if (currentClickNumber > maxSelections){
     alert('You have reached the maximum number of selections.');
     products.removeEventListener('click', handleProductClick);
-    console.table(allProducts);
+
+    updateChartArrays();
     displayVotes();
     drawChart();
+    storeToLocalStorage();
   }
 
 }
@@ -168,8 +167,8 @@ function displayVotes(){
     var listElement = document.createElement('li');
 
     //vote word to use
-    let word = voteWord(allProducts[i].clicks);
-    listElement.textContent = `${allProducts[i].clicks} ${word} for ${allProducts[i].name}`;
+    let word = voteWord(voteData[i]);
+    listElement.textContent = `${voteData[i]} ${word} for ${allProducts[i].name}`;
     unorderedList.appendChild(listElement);
   }
 
@@ -178,60 +177,6 @@ function displayVotes(){
 
 
 /********************* CHART FUNCTIONS ************************** */
-
-var data = {
-  labels: productLabel,
-  datasets: [
-    {
-      label: '# of Votes',
-      data: voteData,
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)',
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)',
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)',
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)'
-      ],
-      hoverBackgroundColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)'
-      ]
-    }
-  ]
-};
 
 var options = {
   scales: {
@@ -246,7 +191,6 @@ var options = {
       ticks: {
         beginAtZero: true,
         stepSize: 1,
-        max: 8,
         min: 0
       }
     }]
@@ -257,9 +201,72 @@ function drawChart(){
   var ctx = document.getElementById('product-chart').getContext('2d');
   var theChart = new Chart(ctx, {
     type:'bar',
-    data: data,
+    data : {
+      labels: productLabel,
+      datasets: [
+        {
+          label: '# of Votes',
+          data: voteData,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)'
+          ],
+          hoverBackgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)'
+          ]
+        }
+      ]
+    },
+
     options: options
   });
+}
+
+//function to store to local storage
+function storeToLocalStorage(){
+  localStorage.setItem('clickCounts',JSON.stringify(voteData));
+}
+
+//function to clear local storage
+function clearStorage(){
+  localStorage.clear();
 }
 
 
@@ -292,9 +299,21 @@ new ProductPic('usb');
 new ProductPic('water-can');
 new ProductPic('wine-glass');
 
+
+
+
 //Display images in the container
 displayImages();
 
+if(localStorage.clickCounts){
+  voteData = JSON.parse(localStorage.clickCounts);
+  console.table(voteData);
+
+} else{
+  voteData = [0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+}
 //Event listener for images
 products.addEventListener('click', handleProductClick);
 
+//Event listener to clear local storage
+document.getElementById('clear-local').addEventListener('click', clearStorage);
