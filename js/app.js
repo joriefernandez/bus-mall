@@ -260,14 +260,7 @@ function drawChart(){
   });
 }
 
-<<<<<<< HEAD
-//Function to clear local storage
-function clearStorage(){
-  console.log('Clicked local storage cleared.');
-  localStorage.clear();
-  
-}
-=======
+
 //function to store to local storage
 function storeToLocalStorage(){
   localStorage.setItem('clickCounts',JSON.stringify(voteData));
@@ -278,8 +271,6 @@ function clearStorage(){
   localStorage.clear();
 }
 
-
->>>>>>> d1b5dc95a1c6ba7f03cf84b986bded665d31b0d7
 /************************************************************************
 *
 * FUNCTION CALLS
