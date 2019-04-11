@@ -98,9 +98,9 @@ body{
   text-align: center;
 }
 
-#clear-localStorage{
-  background-color:blue;
-  border: none;
+
+#clear-local{
+  background-color: blue;
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -110,7 +110,6 @@ body{
   margin: 30px;
   cursor: pointer;
 }
-
 
 /* ********************************************************** */
 
