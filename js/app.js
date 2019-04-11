@@ -140,7 +140,7 @@ function handleProductClick(event) {
   }else if (currentClickNumber > maxSelections){
     alert('You have reached the maximum number of selections.');
     products.removeEventListener('click', handleProductClick);
-    
+
     updateChartArrays();
     displayVotes();
     drawChart();
@@ -254,14 +254,19 @@ function drawChart(){
         }
       ]
     },
-    
+
     options: options
   });
 }
 
-
+//function to store to local storage
 function storeToLocalStorage(){
   localStorage.setItem('clickCounts',JSON.stringify(voteData));
+}
+
+//function to clear local storage
+function clearStorage(){
+  localStorage.clear();
 }
 
 
@@ -303,10 +308,12 @@ displayImages();
 if(localStorage.clickCounts){
   voteData = JSON.parse(localStorage.clickCounts);
   console.table(voteData);
-  
+
 } else{
   voteData = [0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
 //Event listener for images
 products.addEventListener('click', handleProductClick);
 
+//Event listener to clear local storage
+document.getElementById('clear-local').addEventListener('click', clearStorage);
