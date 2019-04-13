@@ -117,6 +117,7 @@ footer p{
   color: white;
 }
 footer{
+  clear: both;
   background-color: #1479a7;
   height: 70px;
 }

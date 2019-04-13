@@ -32,6 +32,7 @@ var listContainer = document.getElementById('votes-container');
 //Chart datasets
 var productLabel = [];
 var voteData;
+var viewData;
 
 
 //Constructor for product image
@@ -116,6 +117,7 @@ function updateChartArrays() {
   for (var i = 0; i < allProducts.length; i++) {
     productLabel[i] = allProducts[i].name;
     voteData[i] += allProducts[i].clicks;
+    viewData[i] += allProducts[i].views;
   }
 }
 
@@ -144,6 +146,7 @@ function handleProductClick(event) {
     updateChartArrays();
     displayVotes();
     drawChart();
+    drawPercentageChart();
     storeToLocalStorage();
   }
 
@@ -260,15 +263,112 @@ function drawChart(){
   });
 }
 
+//function to draw the chart for percentages
+// Function to draw chart
+function drawPercentageChart(){
+  options = {
+    scales: {
+      xAxes: [{
+        barPercentage: 0.8,
+        barThickness: 'flex',
+        gridLines: {
+          offsetGridLines: true
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          stepSize: 10,
+          min: 0
+        }
+      }]
+    }
+  };
+
+  var data = calculatePercentage(voteData, viewData);
+  console.table(data);
+  var ctx = document.getElementById('views-chart').getContext('2d');
+  var percentChart = new Chart(ctx, {
+    type:'bar',
+    data : {
+      labels: productLabel,
+      datasets: [
+        {
+          label: 'Percentages of Votes on Views',
+          data: data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)'
+          ],
+          hoverBackgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)'
+          ]
+        }
+      ]
+    },
+
+    options: options
+  });
+}
+
+
 
 //function to store to local storage
 function storeToLocalStorage(){
   localStorage.setItem('clickCounts',JSON.stringify(voteData));
+  localStorage.setItem('viewCounts', JSON.stringify(viewData));
 }
 
 //function to clear local storage
 function clearStorage(){
   localStorage.clear();
+}
+
+//function to calculate percentages
+function calculatePercentage(votes, views){
+  var temp = [];
+  for (var i = 0; i < votes.length; i++){
+    temp[i] = Math.round((votes[i]/views[i]) * 100);
+  }
+
+  return temp;
 }
 
 /************************************************************************
@@ -304,12 +404,15 @@ new ProductPic('wine-glass');
 //Display images in the container
 displayImages();
 
-if(localStorage.clickCounts){
+if(localStorage.clickCounts && localStorage.viewCounts){
   voteData = JSON.parse(localStorage.clickCounts);
   console.table(voteData);
+  viewData = JSON.parse(localStorage.viewCounts);
+  console.table(viewData);
 
 } else{
   voteData = [0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  viewData = [0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
 //Event listener for images
 products.addEventListener('click', handleProductClick);
