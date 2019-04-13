@@ -209,7 +209,7 @@ function drawChart(){
       labels: productLabel,
       datasets: [
         {
-          label: '# of Votes',
+          label: 'Number of Votes per Product',
           data: voteData,
           backgroundColor: [
             'rgba(255, 99, 132, 0.5)',
@@ -294,7 +294,7 @@ function drawPercentageChart(){
       labels: productLabel,
       datasets: [
         {
-          label: 'Percentages of Votes on Views',
+          label: 'Percentages of Votes on Product Views',
           data: data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.5)',
